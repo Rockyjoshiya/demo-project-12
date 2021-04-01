@@ -22,9 +22,11 @@ import {join} from 'path';
 
 // Express server
 export const app = express();
+2
+const path = require('path');
 
 const PORT = process.env.PORT || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/browser');
+const DIST_FOLDER = join(process.cwd(), './dist/browser');
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const {AppServerModuleNgFactory, LAZY_MODULE_MAP, ngExpressEngine, provideModuleMap} = require('./dist/server/main');
@@ -52,3 +54,7 @@ app.get('*', (req, res) => {
   res.render('index', { req });
 });
 
+app.get('/*', function(req,res) {
+  res.sendFile(path.join(__dirname,'/dist/browser/index.html'));
+  });
+  app.listen(process.env.PORT || 8080);
